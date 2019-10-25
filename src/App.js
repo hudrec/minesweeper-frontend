@@ -5,20 +5,44 @@ class App extends Component {
 
     state = {
         table: [
-            ['F','F','F','F','F','F',],
-            ['F','F','F','F','F','F',],
-            ['F','F','F','F','F','F',],
-            ['F','F','F','F','F','F',],
-            ['F','F','F','F','F','F',],
-            ['F','F','F','F','F','F',],
+            ['F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'B', 'F', 'F', ],
+            ['F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', ],
+            ['F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', ],
+            ['F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', ],
+            ['F', 'F', 'F', 'F', 'B', 'F', 'F', 'F', 'F', 'F', 'B', 'F', 'F', 'F', ],
+            ['F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', ],
+            ['F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', ],
+            ['F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', ],
+            ['F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', ],
+            ['F', 'F', 'B', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', ],
+            ['F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', ],
+            ['F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'F', 'B', 'F', 'F', 'F', ],
+            ['F', 'F', 'F', 'F', 'F', 'F', 'F', 'B', 'F', 'F', 'F', 'F', 'F', 'F', ],
+
         ]
     }
 
     sendButton(x,y) {
-        fetch('https://minesweepergame.herokuapp.com/mines/revealed/'+x+'/'+y+'/',{method:'post'})
+        fetch('http://localhost:8080/mines/revealed/'+x+'/'+y+'/',{method:'post'})
             .then(res => res.json())
             .then((data) => {
                 console.log(data);
+                if (data.status === 'BOMB'){
+                    alert('GAME OVER');
+                }
+                else{
+                    this.setState({ table: data.table })
+                }
+            })
+            .catch(console.log)
+    }
+
+    sendFlag(x,y){
+        fetch('http://localhost:8080/mines/flag/'+x+'/'+y+'/',{method:'post'})
+            .then(res => res.json())
+            .then((data) => {
+                console.log(data);
+
                 this.setState({ table: data.table })
             })
             .catch(console.log)
@@ -33,11 +57,15 @@ class App extends Component {
                     {
                         this.state.table.map(function (row, x) {
                             return(
-                            <div>
+                            <div key={x}>
                                 {
                                     row.map(function (item, y) {
                                         return(
-                                        <button className={item === 'R' ? "btn btn-dark" : "btn btn-outline-dark"} disabled={item === 'R'} onClick={() => self.sendButton(x,y)}>| | </button>
+                                        <button key={y}
+                                                className={item === 'R' ? "btn btn-dark" : item === 'L'? "btn btn-danger": "btn btn-outline-dark"}
+                                                disabled={item === 'R'}
+                                                onContextMenu={() => self.sendFlag(x,y)}
+                                                onClick={() => self.sendButton(x,y)}>| | </button>
                                         )
                                     })
                                 }
