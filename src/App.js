@@ -15,9 +15,10 @@ class App extends Component {
     }
 
     sendButton(x,y) {
-        fetch('http://localhost:8000/mines/revealed/'+x+'/'+y+'/2/')
+        fetch('https://minesweepergame.herokuapp.com//mines/revealed/'+x+'/'+y+'/',{method:'post'})
             .then(res => res.json())
             .then((data) => {
+                console.log(data);
                 this.setState({ table: data.table })
             })
             .catch(console.log)
@@ -25,6 +26,7 @@ class App extends Component {
 
 
     render() {
+        const self = this;
         return (
             <div className="card">
                 <div className="card-body">
@@ -35,7 +37,7 @@ class App extends Component {
                                 {
                                     row.map(function (item, y) {
                                         return(
-                                        <button onClick={() => this.sendButton(x,y)}> {item}</button>
+                                        <button className={item === 'R' ? "btn btn-dark" : "btn btn-outline-dark"} disabled={item === 'R'} onClick={() => self.sendButton(x,y)}>| | </button>
                                         )
                                     })
                                 }
