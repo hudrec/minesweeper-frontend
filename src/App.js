@@ -15,7 +15,7 @@ class App extends Component {
     }
 
     sendButton(x,y) {
-        fetch('https://minesweepergame.herokuapp.com//mines/revealed/'+x+'/'+y+'/',{method:'post'})
+        fetch('https://minesweepergame.herokuapp.com/mines/revealed/'+x+'/'+y+'/',{method:'post'})
             .then(res => res.json())
             .then((data) => {
                 console.log(data);
