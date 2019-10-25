@@ -13,6 +13,17 @@ class App extends Component {
             ['F','F','F','F','F','F',],
         ]
     }
+
+    componentDidMount() {
+        fetch('http://localhost:8000/mines/revealed/2/2/')
+            .then(res => res.json())
+            .then((data) => {
+                this.setState({ table: data.table })
+            })
+            .catch(console.log)
+    }
+
+
     render() {
         return (
             <div className="card">
