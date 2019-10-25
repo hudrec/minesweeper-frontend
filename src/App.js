@@ -23,7 +23,7 @@ class App extends Component {
     }
 
     sendButton(x,y) {
-        fetch('http://localhost:8080/mines/revealed/'+x+'/'+y+'/',{method:'post'})
+        fetch('https://minesweepergame.herokuapp.com/mines/revealed/'+x+'/'+y+'/',{method:'post'})
             .then(res => res.json())
             .then((data) => {
                 console.log(data);
@@ -38,7 +38,7 @@ class App extends Component {
     }
 
     sendFlag(x,y){
-        fetch('http://localhost:8080/mines/flag/'+x+'/'+y+'/',{method:'post'})
+        fetch('https://minesweepergame.herokuapp.com/mines/flag/'+x+'/'+y+'/',{method:'post'})
             .then(res => res.json())
             .then((data) => {
                 console.log(data);
