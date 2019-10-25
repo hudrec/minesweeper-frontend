@@ -14,8 +14,8 @@ class App extends Component {
         ]
     }
 
-    componentDidMount() {
-        fetch('http://localhost:8000/mines/revealed/2/2/')
+    sendButton(x,y) {
+        fetch('http://localhost:8000/mines/revealed/'+x+'/'+y+'/2/')
             .then(res => res.json())
             .then((data) => {
                 this.setState({ table: data.table })
@@ -29,13 +29,13 @@ class App extends Component {
             <div className="card">
                 <div className="card-body">
                     {
-                        this.state.table.map(function (row, ind) {
+                        this.state.table.map(function (row, x) {
                             return(
                             <div>
                                 {
-                                    row.map(function (item, ind) {
+                                    row.map(function (item, y) {
                                         return(
-                                        <button> {item}</button>
+                                        <button onClick={() => this.sendButton(x,y)}> {item}</button>
                                         )
                                     })
                                 }
